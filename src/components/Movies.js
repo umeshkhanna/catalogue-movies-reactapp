@@ -4,25 +4,20 @@ import { Link } from "react-router-dom"
 const Movies = () => {
     const [movies, setMovies] = useState([])
     useEffect(() => {
-        const moviesList = [
-            {
-                id: 1,
-                title: "Harry Potter and Sorcerer's Stone",
-                release_date: "2000-01-22",
-                runtime: 150,
-                mpaa_rating: "PG-13",
-                description: "Some Description"
-            },
-            {
-                id: 2,
-                title: "Harry Potter and Chambers of secrets",
-                release_date: "2001-01-22",
-                runtime: 150,
-                mpaa_rating: "PG-13",
-                description: "Some Description"
-            }
-        ];
-        setMovies(moviesList);
+        const headers = new Headers()
+        headers.append("Content-Type", "application/json")
+        const requestOptions = {
+            method:"GET",
+            headers:headers
+        }
+        fetch(`http://localhost:8080/movies`, requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                setMovies(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }, [])
     return (
         <div>
